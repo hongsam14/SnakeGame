@@ -1,15 +1,17 @@
 #include <ncurses.h>
 #include <iostream>
-#include "map.h"
+#include "GameField.h"
 using namespace std;
 
-int main(void)
+int main(int argc, char** argv)
 {
-	WINDOW *win1;
-	int row, col;
-	cin >> row >> col;
-	int** map1 = makemap(row, col);
-	map1 = initialMap(row, col);
+#if 1
+	GameField gf;
+	gf.initializeField();
+#else
+	GameField gf;
+	gf = initializeField("sample.map");
+#endif
 	
 	initscr();
 	start_color();
@@ -17,18 +19,15 @@ int main(void)
 	init_pair(2, COLOR_WHITE, COLOR_CYAN);
 
 	attron(COLOR_PAIR(1));
-	for(int i = 0; i < row; i++) {
-		for(int j = 0; j < col; j++) {
-			printw("%d ", map1[i][j]);	
+	for(int i = 0; i < gf.get_col_size(); i++) {
+		for(int j = 0; j < gf.get_row_size(); j++) {
+			printw("%d ", gf.get_cell(j, i));	
 		}
 		printw("\n");
 	}
-	
 	attroff(COLOR_PAIR(1));
 	refresh();
 	getch();
 	endwin();
-
-	map1 = deleteMap();
 	return 0;
 }

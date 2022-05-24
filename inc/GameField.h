@@ -15,12 +15,12 @@ class GameField
 {
 	private :
 		int** field;
-		const int row_;
-		const int col_;
+		int row_;
+		int col_;
 
 		void read_map(vector<string>& map);
 	public :
-		GameField(int row_size, int col_size);
+		GameField(int row_size = 21, int col_size = 21);
 
 		~GameField();
 
@@ -34,11 +34,14 @@ class GameField
 
 		int get_col_size() const;
 
+		GameField& initializeField();
+		GameField& operator= (const GameField& cp);
+		
+		friend GameField initializeField(const string& file_Name);
 		friend ostream& operator<< (ostream& os, const GameField& gf);
-		friend GameField generate_field(const string& file_name);
 };
 
 ostream& operator<< (ostream& os, const GameField& gf);
-GameField generate_field(const string& file_name);
+GameField initializeField(const string& file_Name);
 
 #endif

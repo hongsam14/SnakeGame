@@ -45,6 +45,24 @@ int GameField::get_col_size() const
 	return col_;
 }
 
+GameField& GameField::operator= (const GameField& cp)
+{
+	for (int i = 0; i < col_; i++)
+		delete[] field[i];
+	delete[] field;
+	
+	col_ = cp.col_;
+	row_ = cp.row_;
+	field = new int*[col_];
+	for (int i = 0; i < col_; i++)
+	{
+		field[i] = new int[row_];
+		for (int j = 0; j < row_; j++)
+			field[i][j] = cp.field[i][j];
+	}
+	return *this;
+}
+
 ostream& operator<< (ostream& os, const GameField& gf)
 {
 	for (int i = 0; i < gf.col_; i++)
@@ -62,7 +80,7 @@ void GameField::read_map(vector<string>& map)
 	{
 		for (int j = 0; j < row_; ++j)
 		{
-			if (strchr("01234", map[i][j]))
+			if (strchr("01234", map[i][j]) && j < map[i].length())
 				field[i][j] = map[i][j] - '0';
 			else
 				field[i][j] = -1;
@@ -70,10 +88,26 @@ void GameField::read_map(vector<string>& map)
 	}
 }
 
-GameField generate_field(const string& file_name)
+GameField& GameField::initializeField()
+{
+	for(int i = 0; i < row_; i++){
+            for(int j = 0; j < col_; j++){
+                field[row_/2][col_/2] = 3;
+                if(i == 0 && j == 0 || i == row_ -1 && j == col_-1 || i == row_-1 && j == 0
+                    || i == 0 && j == col_-1) {
+                                    field[i][j] = 2;
+                            } else if (i == 0 || i == row_-1 || j == 0 || j == col_-1) {
+                                    field[i][j] = 1;
+                            }
+            }
+        }
+        return *this;
+}
+
+GameField initializeField(const string& file_Name)
 {
 	string line;
-	ifstream file(file_name);
+	ifstream file(file_Name);
 
 	vector<string> tmp;
 	int size_w(0);
