@@ -12,12 +12,20 @@ OBJ_DIR = obj
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Linux)
+	NCURSES = ncursesw
+endif
+ifeq ($(UNAME_S), Darwin)
+	NCURSES = ncurses
+endif
+
 all : $(NAME)
 
 
 $(NAME) : $(OBJS) Makefile
-	$(CC) $(CFLAGS) -o $@ $(OBJS) -lncursesw
-
+		$(CC) $(CFLAGS) -o $@ $(OBJS) -l$(NCURSES)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INC_DIR)
