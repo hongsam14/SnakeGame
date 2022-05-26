@@ -88,10 +88,7 @@ void Screen::print_cell(int x, int y, int cell)
 	}
 	
 	attron(cp);
-	if (cell > 0)
-		mvprintw(y + 1, x + 1, "\u2B1B");
-	else
-		mvprintw(y + 1, x + 1, "\u2B1B");
+	mvprintw(y + 1, x + 1, "\u2B1B");
 	attroff(cp);
 }
 
