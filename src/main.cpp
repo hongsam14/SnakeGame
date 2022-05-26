@@ -35,7 +35,6 @@ int main(int argc, char** argv)
 	Screen sc("SnakeGame", '#', gf.get_row_size() * 3, gf.get_col_size() + 2);
 	//game view
 	game_view(gf, sc);
-	sc.update();
 	getch();
 	return 0;
 }

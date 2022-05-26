@@ -25,10 +25,6 @@ void Window::print()
 {
 }
 
-/**
- *Screen
- **/
-
 Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c), w(W), h(H)
 {
 	setlocale(LC_ALL, "");
@@ -36,13 +32,14 @@ Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c
 	initscr();
 	resize_term(h, w);
 	//init color
+	start_color();
+	init_color();
 	//input setting
 	keypad(stdscr, true);
 	curs_set(0);
 	noecho();
 	//print title	
 	draw_Basic();
-	update();
 }
 
 Screen::~Screen()
@@ -59,12 +56,43 @@ void Screen::draw_Basic()
 	mvprintw(0, (w - title.length()) / 2, title.c_str());
 }
 
+void Screen::init_color()
+{
+	init_pair(WHITE, COLOR_WHITE, COLOR_WHITE);
+	init_pair(BLACK, COLOR_BLACK, COLOR_BLACK);
+	init_pair(RED, COLOR_RED, COLOR_RED);
+	init_pair(GREEN, COLOR_GREEN, COLOR_GREEN);
+	init_pair(YELLOW, COLOR_YELLOW, COLOR_YELLOW);
+	init_pair(BLUE, COLOR_BLUE, COLOR_BLUE);
+}
+
 void Screen::print_cell(int x, int y, int cell)
 {
+	int cp;
+	
+	switch (cell)
+	{
+		case 4 :
+			cp = COLOR_PAIR(YELLOW);
+			break;
+		case 3 :
+			cp = COLOR_PAIR(GREEN);
+			break;
+		case 2 :
+		case 1 :
+			cp = COLOR_PAIR(WHITE);
+			break;
+		case 0 :
+		default :
+			cp = COLOR_PAIR(BLACK);
+	}
+	
+	attron(cp);
 	if (cell > 0)
 		mvprintw(y + 1, x + 1, "\u2B1B");
 	else
-		mvprintw(y + 1, x + 1, "\u2B1C");
+		mvprintw(y + 1, x + 1, "\u2B1B");
+	attroff(cp);
 }
 
 int Screen::update()

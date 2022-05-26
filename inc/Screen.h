@@ -19,7 +19,7 @@ class Window
 		WINDOW *win;
 	public :
 		Window(wchar_t c, int x, int y, int W = 10, int H = 10);
-		~Window();
+		virtual ~Window();
 		int update();
 		virtual void print();
 };
@@ -31,7 +31,10 @@ class Screen
 		const string title;
 		const wchar_t bc;
 
+		enum Color { WHITE=1, BLACK, RED, GREEN, YELLOW, BLUE, LAST };
+
 		void draw_Basic();
+		void init_color();
 
 	public :
 		Screen(const string& Title, wchar_t c, int W = 40 , int H = 40);
