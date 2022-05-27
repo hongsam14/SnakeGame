@@ -31,7 +31,7 @@ class Screen
 		const string title;
 		const wchar_t bc;
 
-		enum Color { WHITE=1, BLACK, RED, GREEN, YELLOW, BLUE, LAST };
+		enum Color { WHITE=1, GREY, BLACK, RED, GREEN, YELLOW, BLUE, LAST };
 
 		void draw_Basic();
 		void init_color();

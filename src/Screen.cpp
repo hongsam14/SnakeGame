@@ -59,6 +59,7 @@ void Screen::draw_Basic()
 void Screen::init_color()
 {
 	init_pair(WHITE, COLOR_WHITE, COLOR_WHITE);
+	init_pair(GREY, COLOR_BLACK, COLOR_WHITE);
 	init_pair(BLACK, COLOR_BLACK, COLOR_BLACK);
 	init_pair(RED, COLOR_RED, COLOR_RED);
 	init_pair(GREEN, COLOR_GREEN, COLOR_GREEN);
@@ -79,6 +80,8 @@ void Screen::print_cell(int x, int y, int cell)
 			cp = COLOR_PAIR(GREEN);
 			break;
 		case 2 :
+			cp = COLOR_PAIR(GREY);
+			break;
 		case 1 :
 			cp = COLOR_PAIR(WHITE);
 			break;
