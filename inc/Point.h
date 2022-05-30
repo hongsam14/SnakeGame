@@ -12,11 +12,12 @@ public:
     Point(int x, int y) :x(x), y(y) { };
 
     bool isValid();
-    Point moveTO(const int x, const int y);
+    Point moveTo(const int dir);
 
     friend bool operator==(const Point& x, const Point& y);
     Point& operator=(const Point& a);
     friend std::ostream& operator<<(std::ostream& outStream, const Point& point);
+
 };
 
 #endif

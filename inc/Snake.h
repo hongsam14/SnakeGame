@@ -2,21 +2,23 @@
 #define _SNAKE_
 
 #include <vector>
+#include "/home/mumat/SnakeGame/inc/Point.h"
 #include "GameField.h"
 
 class Snake
 {
 public:
-    Snake();
+    Snake(GameField& gf);
 
-    void update();
-    void getNextPoint();
-    void getSnakeLength();
+    void update(GameField& gf);
+    Point getNextPoint(const int dir);
+    int getSnakeLength();
+    void getItem(GameField& gf);
 
 private:
-    void next_pos;
-    void head_pos;
-    void bodies;
+    Point next_pos;
+    Point head_pos;
+    vector<Point> bodies;
 };
 
 #endif
