@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <iostream>
 #include "GameField.h"
-#include "/home/mumat/SnakeGame/inc/Snake.h"
+#include "Snake.h"
 using namespace std;
 
 #define UP 0
