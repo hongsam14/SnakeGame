@@ -1,7 +1,13 @@
 #include <ncurses.h>
 #include <iostream>
 #include "GameField.h"
+#include "Snake.h"
 using namespace std;
+
+#define UP 0
+#define DOWN 1
+#define RIGHT 2
+#define LEFT 3
 
 int main(int argc, char** argv)
 {
@@ -12,6 +18,7 @@ int main(int argc, char** argv)
 	GameField gf;
 	gf = initializeField("sample.map");
 #endif
+	Snake snake(gf);
 	
 	initscr();
 	start_color();
@@ -26,6 +33,30 @@ int main(int argc, char** argv)
 		printw("\n");
 	}
 	attroff(COLOR_PAIR(1));
+	refresh();
+
+	snake.getNextPoint(UP);
+	snake.update(gf);
+
+	for(int i = 0; i < gf.get_col_size(); i++) {
+		for(int j = 0; j < gf.get_row_size(); j++) {
+			printw("%d ", gf.get_cell(j, i));	
+		}
+		printw("\n");
+	}
+	refresh();
+
+	snake.getNextPoint(LEFT);
+	snake.update(gf);
+
+	snake.getNextPoint(DOWN);
+	snake.update(gf);
+	for(int i = 0; i < gf.get_col_size(); i++) {
+		for(int j = 0; j < gf.get_row_size(); j++) {
+			printw("%d ", gf.get_cell(j, i));	
+		}
+		printw("\n");
+	}
 	refresh();
 	getch();
 	endwin();
