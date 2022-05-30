@@ -38,7 +38,6 @@ Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c
 	keypad(stdscr, true);
 	curs_set(0);
 	noecho();
-	//print title	
 	draw_Basic();
 }
 
