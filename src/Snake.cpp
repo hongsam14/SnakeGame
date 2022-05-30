@@ -7,10 +7,12 @@ Snake::Snake(GameField& gf)
     bodies.push_back(Point(head_pos.x, head_pos.y));
     bodies.push_back(Point(head_pos.x + 1, head_pos.y));
     bodies.push_back(Point(head_pos.x + 2, head_pos.y));
+
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
-    for(int i = 1; i <= 2; i++){
+    for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
+
 }
 
 Point Snake::getNextPoint(const int dir)
@@ -26,15 +28,16 @@ int Snake::getSnakeLength()
 
 void Snake::update(GameField& gf)
 {
-    bodies[2] = bodies[1];
-    bodies[1] = head_pos;
+    priv_pos = head_pos;
     head_pos = next_pos;
     
     bodies.insert(bodies.begin(), head_pos);
+    int len = bodies.size();
+    gf.set_cell(bodies[len - 1].x, bodies[len - 1].y, 0);
     bodies.pop_back();
-
+    
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
-    for(int i = 1; i <= 2; i++){
+    for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
 
