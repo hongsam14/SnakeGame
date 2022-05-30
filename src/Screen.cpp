@@ -38,7 +38,6 @@ Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c
 	keypad(stdscr, true);
 	curs_set(0);
 	noecho();
-	draw_Basic();
 }
 
 Screen::~Screen()
@@ -89,6 +88,11 @@ void Screen::print_cell(int x, int y, int cell)
 	attron(cp);
 	mvprintw(y + 1, x + 1, "\u2B1B");
 	attroff(cp);
+}
+
+int Screen::clear_Screen()
+{
+	return clear();
 }
 
 int Screen::update()

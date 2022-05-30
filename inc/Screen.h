@@ -33,13 +33,14 @@ class Screen
 
 		enum Color { WHITE=1, BLACK, RED, GREEN, YELLOW, BLUE, LAST };
 
-		void draw_Basic();
 		void init_color();
 
 	public :
 		Screen(const string& Title, wchar_t c, int W = 40 , int H = 40);
 		~Screen();
 		void print_cell(int x, int y, int cell);
+		void draw_Basic();
+		int clear_Screen();
 		int update();
 };
 
