@@ -25,7 +25,7 @@ all : $(NAME)
 
 
 $(NAME) : $(OBJS) Makefile
-		$(CC) $(CFLAGS) -o $@ $(OBJS) -l$(NCURSES)
+		$(CC) $(CFLAGS) -o $@ $(OBJS) -l$(NCURSES) -lpthread
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INC_DIR)

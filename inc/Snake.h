@@ -2,7 +2,7 @@
 #define _SNAKE_
 
 #include <vector>
-#include "/home/mumat/SnakeGame/inc/Point.h"
+#include "Point.h"
 #include "GameField.h"
 
 class Snake

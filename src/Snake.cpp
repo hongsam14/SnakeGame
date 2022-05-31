@@ -1,4 +1,4 @@
-#include "/home/mumat/SnakeGame/inc/Snake.h"
+#include "Snake.h"
 
 Snake::Snake(GameField& gf)
 {

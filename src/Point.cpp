@@ -1,4 +1,4 @@
-#include "/home/mumat/SnakeGame/inc/Point.h"
+#include "Point.h"
 #include "GameField.h"
 
 #define UP 0
