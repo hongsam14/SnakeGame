@@ -11,7 +11,9 @@ public:
     Snake(GameField& gf);
     ~Snake();
     void update(GameField& gf);
+    
     Point getNextPoint(const int dir);
+    Point getHeadPoint();
     int getSnakeLength();
     void getItem(GameField& gf);
 
