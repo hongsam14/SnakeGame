@@ -5,11 +5,10 @@
 
 class Wall
 {
-private:
-    vector<Point> wall_list;
 public:
     Wall(GameField &gf);
     ~Wall();
+    vector<Point> wall_list;
 };
 
 #endif

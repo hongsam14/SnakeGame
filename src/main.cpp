@@ -1,6 +1,8 @@
 #include "GameField.h"
 #include "Screen.h"
 #include "Snake.h"
+#include "Gate.h"
+
 
 #include <thread>
 #include <chrono>
@@ -107,6 +109,7 @@ int main(int argc, char** argv)
 	Screen sc("SnakeGame", '#', gf.get_row_size() * 3, gf.get_col_size() + 2);
 	//init Snake
 	Snake snake(gf);
+	Gate Gate(gf, Wall &wall)
 	//thread control
 	mutex m;
 	thread control(game_control);
