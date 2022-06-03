@@ -9,7 +9,7 @@ class Snake
 {
 public:
     Snake(GameField& gf);
-
+    ~Snake();
     void update(GameField& gf);
     Point getNextPoint(const int dir);
     int getSnakeLength();

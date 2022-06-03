@@ -14,6 +14,12 @@ Snake::Snake(GameField& gf)
     }
 
 }
+Snake::~Snake()
+{
+    bodies.clear();
+    vector <Point>().swap(bodies);
+    cout << bodies.capacity() << "\n";
+}
 
 Point Snake::getNextPoint(const int dir)
 {
