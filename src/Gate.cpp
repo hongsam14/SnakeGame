@@ -53,5 +53,6 @@ vector<int> Gate::findExitRoute(GameField& gf, Point gate)
         }
     }
     return exitDir;
+    
 }
     
