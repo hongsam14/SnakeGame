@@ -17,14 +17,18 @@ Gate::Gate(GameField &gf, Wall &wall)
         
         gate_num++;
     }
-
     gates = make_pair(gate1, gate2);
     gate_directions = make_pair(findExitRoute(gf, gate1), findExitRoute(gf, gate2));
     gf.set_cell(gate1.x, gate1.y, 7);
     gf.set_cell(gate2.x, gate2.y, 7);
-
 }
-
+//add
+Gate::Gate(GameField &gf, const Point& gate1, const Point& gate2)
+{
+	gates = make_pair(gate1, gate2);
+	gate_directions = make_pair(findExitRoute(gf, gate1), findExitRoute(gf, gate2));
+}
+//add end
 Gate::~Gate()
 {   
     if(passing_snake == false)

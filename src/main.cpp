@@ -2,6 +2,7 @@
 #include "Screen.h"
 #include "Snake.h"
 #include "Gate.h"
+#include "GateGenerator.h"
 
 #include <thread>
 #include <chrono>
@@ -60,28 +61,56 @@ static void game_view(const GameField& gf, Screen& sc)
 	sc.update();
 }
 
-static void game_collision(const GameField& gf, const Snake& snake)
+static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
 {
+	bool out;
+	//Point p = snake.getNextPoint(cmd);
+	snake.setDirection(cmd);
+	Point p = snake.getNextPos();
+	//judge
+	switch(gf.get_cell(p.x, p.y))
+	{
+		case 1:
+		case 2:
+		case 4:
+			return false;
+		case 7:
+			//gate
+			snake.warp(gtr.getGate());
+		default :
+			;
+	}
+	return true;
 }
 
-static void game_Loop(GameField& gf, Screen& sc, Snake& snake, mutex& m, Gate& gate)
+//static void game_Loop(GameField& gf, Screen& sc, Snake& snake, mutex& m, Gate& gate)
+static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gtr, mutex& m)
 {
+	int frame = 0;
+	bool coll_check = true;
 	//game view
 	do
 	{
 		m.lock();
+		//generate map
+		if (frame == 10)
+		{
+			gtr.generate_Gate(gf);
+			frame = 0;
+		}
 		//print gameField
 		game_view(gf, sc);
-		//collision check
-		game_collision(gf, snake);
 		//move Snake
-		if (g_command != EXIT)
-		{
-			snake.getNextPoint(g_command);
-			snake.update(gf, gate);
-		}
-		else
+		if (g_command == EXIT || coll_check == false)
 			g_game_status = false;
+		if (g_game_status)
+		{
+			//check collision
+			coll_check = game_check_collision(gf, snake, gtr, g_command);
+			//update data
+			snake.update(gf);
+		}
+		frame++;
 		//sleep
 		this_thread::sleep_for(std::chrono::milliseconds(FRAME_RATE));
 		m.unlock();
@@ -110,13 +139,13 @@ int main(int argc, char** argv)
 	//init Snake
 	Snake snake(gf);
 	//init Gate
-	Wall wall(gf);
-	Gate gate(gf, wall);
+	GateGenerator gate_gtr(gf);
 	//thread control
 	mutex m;
 	thread control(game_control);
 	control.detach();
 	//game loop
-	game_Loop(gf, sc, snake, m, gate);
+	gate_gtr.generate_Gate(gf);
+	game_Loop(gf, sc, snake, gate_gtr, m);
 	return 0;
 }

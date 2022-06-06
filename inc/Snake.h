@@ -12,14 +12,30 @@ public:
     ~Snake();
     void update(GameField& gf, Gate& gate);
     
-    Point getNextPoint(const int dir);
+    void update(GameField& gf);
+    
+    //Point getNextPoint(const int dir);
+    
     Point getHeadPoint() const;
+    
     int getSnakeLength() const;
+    
     void getItem(GameField& gf);
+
+    int getDirection() const;
+    
+    void warp(Gate& gate);
+
+    void setDirection(int dir);
+
+    Point getNextPos();
+
 private:
     Point next_pos;
     Point head_pos;
     vector<Point> bodies;
+
+    int dir;
 };
 
 #endif

@@ -7,25 +7,25 @@
 
 Point Point::moveTo(const int dir)
 {
-    int x = (*this).x;
-    int y = (*this).y;
+    int x_ = (*this).x;
+    int y_ = (*this).y;
 
     switch (dir)
     {
         case UP:
-            y--;
+            y_--;
             break;
         case DOWN:
-            y++;
+            y_++;
             break;
         case RIGHT:
-            x++;
+            x_++;
             break;
         case LEFT:
-            x--;
+            x_--;
             break;
     }
-    return Point(x,y);
+    return Point(x_,y_);
 }
 
 bool Point::isValid(GameField& gf)

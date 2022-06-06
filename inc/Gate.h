@@ -29,7 +29,11 @@ public:
     bool passing_snake = false;
     pair<vector<int>, vector<int>> gate_directions;
     pair<Point, Point> gates;
+    
     Gate(GameField &gf, Wall &wall);
+    
+    Gate(GameField &gf, const Point& gate1, const Point& gate2);
+    
     ~Gate();
 
     void deleteGate(GameField &gf);

@@ -13,20 +13,21 @@ Snake::Snake(GameField& gf)
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
-
+    //init dir
+    dir = 0;
 }
 Snake::~Snake()
 {
     bodies.clear();
     vector <Point>().swap(bodies);
 }
-
+/*
 Point Snake::getNextPoint(const int dir)
 {
     next_pos = head_pos.moveTo(dir);
     return next_pos;
 }
-
+*/
 Point Snake::getHeadPoint() const
 {
     return head_pos;
@@ -44,7 +45,6 @@ void Snake::update(GameField& gf, Gate& gate)
     int len = bodies.size();
     gf.set_cell(bodies[len - 1].x, bodies[len - 1].y, 0);
     bodies.pop_back();
-
     if(head_pos == gate.gates.first){
         int nextDir = gate.gate_directions.second[1];
         bodies[0] = gate.gates.second.moveTo(nextDir);
@@ -58,13 +58,25 @@ void Snake::update(GameField& gf, Gate& gate)
         head_pos = next_pos;
         gate.passing_snake = true;
     }
-    
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
 }
-
+//add
+void Snake::update(GameField& gf)
+{
+    head_pos = next_pos;
+    bodies.insert(bodies.begin(), head_pos);
+    int len = bodies.size();
+    gf.set_cell(bodies[len - 1].x, bodies[len - 1].y, 0);
+    bodies.pop_back();
+    gf.set_cell(bodies[0].x, bodies[0].y, 3);
+    for(int i = 1; i < bodies.size(); i++){
+        gf.set_cell(bodies[i].x, bodies[i].y, 4);
+    }
+}
+//end add
 void Snake::getItem(GameField& gf)
 {
     head_pos = next_pos;
@@ -79,4 +91,37 @@ void Snake::getItem(GameField& gf)
         case 0: //Passing map
             break;
     }
+}
+//add
+int Snake::getDirection() const
+{
+	return dir;
+}
+
+void Snake::warp(Gate& gate)
+{
+    if(head_pos == gate.gates.first){
+        int nextDir = gate.gate_directions.second[1];
+        bodies[0] = gate.gates.second.moveTo(nextDir);
+        next_pos = bodies[0];
+        head_pos = next_pos;
+        gate.passing_snake = true;
+    } else if(head_pos == gate.gates.second) {
+        int nextDir = gate.gate_directions.first[1];
+        bodies[0] = gate.gates.first.moveTo(nextDir);
+        next_pos = bodies[0];
+        head_pos = next_pos;
+        gate.passing_snake = true;
+    }
+}
+
+void Snake::setDirection(int dir)
+{
+	this->dir = dir;
+}
+
+Point Snake::getNextPos()
+{
+    next_pos = head_pos.moveTo(dir);
+    return next_pos;
 }

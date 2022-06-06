@@ -1,4 +1,5 @@
 #include "GateGenerator.h"
+#include "Gate.h"
 
 static Point g_dir[8] = {Point(-1, 0), Point(-1, 1), Point(0, 1), Point(1, 1),
 		Point(1, 0), Point(1, -1), Point(0, -1), Point(-1, -1)};
@@ -16,10 +17,14 @@ GateGenerator::GateGenerator(const GameField& field)
 	}
 	//init rand
 	srand((unsigned int)time(NULL));
+	//init gate pointer
+	gate = NULL;
 }
 
 GateGenerator::~GateGenerator()
 {
+	if (gate != NULL)
+		delete gate;
 	wall_data.clear();
 	vector<Point>().swap(wall_data);
 }
@@ -49,9 +54,17 @@ void GateGenerator::generate_Gate(GameField& gf)
 	
 	gf.set_cell(point.x, point.y, 7);
 	gf.set_cell(point_2.x, point_2.y, 7);
+
+	gate = new Gate(gf, point, point_2);
+
 	//save past data
 	p_num = r_num;
 	p_num_2 = r_num_2;
+}
+
+Gate& GateGenerator::getGate() const
+{
+	return *gate;
 }
 
 int GateGenerator::search_wall(GameField& field, const Point& sp)
