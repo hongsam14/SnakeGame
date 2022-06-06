@@ -44,6 +44,33 @@ bool operator==(const Point& a, const Point& b)
 {
     return (a.x == b.x) && (a.y == b.y);
 }
+
+Point& Point::operator+= (const Point& a)
+{
+	x += a.x;
+	y += a.y;
+	return *this;
+}
+
+Point& Point::operator-= (const Point& a)
+{
+	x -= a.x;
+	y -= a.y;
+	return *this;
+}
+
+Point operator+ (Point p1, const Point& p2)
+{
+	p1 += p2;
+	return p1;
+}
+
+Point operator- (Point p1, const Point& p2)
+{
+	p1 -= p2;
+	return p1;
+}
+
 std::ostream& operator<<(std::ostream& outStream, const Point& point)
 {
     outStream << "(" << point.x << "," << point.y << ")" << '\n';
