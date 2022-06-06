@@ -8,20 +8,28 @@
 
 using namespace std;
 
+// UP 0
+// DOWN 1
+// RIGHT 2
+// LEFT 3
+
 class Gate
 {
 private:
     Point gate1, gate2;
-    pair<Point, Point> gates;
-    int gate_num = 0;
-    bool passing_snake = false;
+    int gate_num;
+    int gate_dir;
+    int gate1Arr[4], gate2Arr[4];
 public:
+    bool passing_snake = false;
+    pair<Point, Point> gates;
     Gate(GameField &gf, Wall &wall);
     ~Gate();
+
     void deleteGate(GameField &gf);
-    Point pass_gate();
-    int entry_direction();
-    //생성자에 진행 방향 담기.
+    int entryDirection(const int dir);
+    Point findExitRoute(GameField &gf);
+    
 };
 
 #endif

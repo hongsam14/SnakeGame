@@ -3,7 +3,6 @@
 #include "Snake.h"
 #include "Gate.h"
 
-
 #include <thread>
 #include <chrono>
 #include <mutex>
@@ -16,6 +15,7 @@
 #define FRAME_RATE 500
 
 using std::thread;
+
 
 static int g_command = 0;
 static bool g_game_status = true;
@@ -64,7 +64,7 @@ static void game_collision(const GameField& gf, const Snake& snake)
 {
 }
 
-static void game_Loop(GameField& gf, Screen& sc, Snake& snake, mutex& m)
+static void game_Loop(GameField& gf, Screen& sc, Snake& snake, mutex& m, Gate& gate)
 {
 	//game view
 	do
@@ -78,7 +78,7 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, mutex& m)
 		if (g_command != EXIT)
 		{
 			snake.getNextPoint(g_command);
-			snake.update(gf);
+			snake.update(gf, gate);
 		}
 		else
 			g_game_status = false;
@@ -109,14 +109,14 @@ int main(int argc, char** argv)
 	Screen sc("SnakeGame", '#', gf.get_row_size() * 3, gf.get_col_size() + 2);
 	//init Snake
 	Snake snake(gf);
+	//init Gate
 	Wall wall(gf);
 	Gate gate(gf, wall);
-	gate.deleteGate(gf);
 	//thread control
 	mutex m;
 	thread control(game_control);
 	control.detach();
 	//game loop
-	game_Loop(gf, sc, snake, m);
+	game_Loop(gf, sc, snake, m, gate);
 	return 0;
 }

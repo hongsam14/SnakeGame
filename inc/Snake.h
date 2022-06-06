@@ -4,19 +4,18 @@
 #include <vector>
 #include "Point.h"
 #include "GameField.h"
-
+#include "Gate.h"
 class Snake
 {
 public:
     Snake(GameField& gf);
     ~Snake();
-    void update(GameField& gf);
+    void update(GameField& gf, Gate& gate);
     
     Point getNextPoint(const int dir);
     Point getHeadPoint();
     int getSnakeLength();
     void getItem(GameField& gf);
-
 private:
     Point priv_pos;
     Point next_pos;
