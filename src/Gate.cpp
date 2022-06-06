@@ -15,10 +15,11 @@ Gate::Gate(GameField &gf, Wall &wall)
         gate1 = wall.wall_list[gate1Num];
         gate2 = wall.wall_list[gate2Num];
         
-        gates = make_pair(gate1, gate2);
-        cout << gates.first;
         gate_num++;
     }
+
+    gates = make_pair(gate1, gate2);
+    gate_directions = make_pair(findExitRoute(gf, gate1), findExitRoute(gf, gate2));
     gf.set_cell(gate1.x, gate1.y, 7);
     gf.set_cell(gate2.x, gate2.y, 7);
 
@@ -39,23 +40,18 @@ void Gate::deleteGate(GameField &gf)
         
 }
 
-int Gate::entryDirection(const int dir)
+vector<int> Gate::findExitRoute(GameField& gf, Point gate)
 {
-    gate_dir = dir
-    return gate_dir;
+    vector<int> exitDir;
+    for(int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            Point exit = gate.moveTo(dirTable[i][j]);
+            if(exit.isValid(gf) && gf.get_cell(exit.x, exit.y) == 0){
+                exitDir.push_back(dirTable[i][j]);
+                break;
+            }
+        }
+    }
+    return exitDir;
 }
-
-Point Gate::findExitRoute(GameField &gf)
-{
-    if(gf.get_cell(x, y) == 0) //진입 방향 cell이 0이면
-        return gf.get_cell(x, y); //그 좌표 반환 후 head_ptr 설정해주기
     
-    else if(gf.get_cell(x, y) == 0) //진입 방향 시계방향 cell이 0이면
-        return gf.get_cell(x, y); //그 좌표 반환 후 head_ptr 설정해주기
-    
-    else if(gf.get_cell(x, y) == 0) //진입 방향 반시계방향 cell이 0이면
-        return gf.get_cell(x, y); //그 좌표 반환 후 head_ptr 설정해주기
-    
-    else if(gf.get_cell(x, y) == 0) //진입 방향 반대방향이 0이면
-        return gf.get_cell(x, y); //그 좌표 반환 후 head_ptr 설정해주기
-}

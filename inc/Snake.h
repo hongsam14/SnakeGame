@@ -17,7 +17,6 @@ public:
     int getSnakeLength();
     void getItem(GameField& gf);
 private:
-    Point priv_pos;
     Point next_pos;
     Point head_pos;
     vector<Point> bodies;

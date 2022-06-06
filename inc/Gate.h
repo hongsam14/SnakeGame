@@ -8,27 +8,32 @@
 
 using namespace std;
 
-// UP 0
-// DOWN 1
-// RIGHT 2
-// LEFT 3
+#define UP 0
+#define DOWN 1
+#define RIGHT 2
+#define LEFT 3
 
 class Gate
 {
 private:
+    const int dirTable[5][5]={
+        {UP, RIGHT, LEFT, DOWN},
+        {DOWN, LEFT, RIGHT, UP},
+        {RIGHT, DOWN, UP, LEFT},
+        {LEFT, UP, DOWN, RIGHT},
+    };
+    
+public:
     Point gate1, gate2;
     int gate_num;
-    int gate_dir;
-    int gate1Arr[4], gate2Arr[4];
-public:
     bool passing_snake = false;
+    pair<vector<int>, vector<int>> gate_directions;
     pair<Point, Point> gates;
     Gate(GameField &gf, Wall &wall);
     ~Gate();
 
     void deleteGate(GameField &gf);
-    int entryDirection(const int dir);
-    Point findExitRoute(GameField &gf);
+    vector<int> findExitRoute(GameField& gf, Point gate);
     
 };
 

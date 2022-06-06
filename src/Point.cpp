@@ -28,6 +28,11 @@ Point Point::moveTo(const int dir)
     return Point(x,y);
 }
 
+bool Point::isValid(GameField& gf)
+{
+    return (*this).x >= 0 && (*this).y >= 0 && (*this).x < gf.get_row_size() && (*this).y < gf.get_col_size();
+}
+
 Point& Point::operator=(const Point& a)
 {
     x = a.x;
