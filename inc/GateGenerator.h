@@ -3,18 +3,21 @@
 
 #include "Point.h"
 #include "GameField.h"
+
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 //#include "Gate.h"
 
 using namespace std;
 
-class Gate_Generator
+class GateGenerator
 {
 	public :
-		Gate_Generator(const GameField& field);
-		~Gate_Generator();
+		GateGenerator(const GameField& field);
+		~GateGenerator();
 		//member func
-		void generate_Gate();
+		void generate_Gate(GameField& gf);
 	private :
 		vector<Point> wall_data;
 		int search_wall(GameField& field, const Point& sp);
