@@ -1,4 +1,5 @@
 #include "Snake.h"
+#include "Gate.h"
 
 Snake::Snake(GameField& gf)
 {
@@ -36,21 +37,32 @@ int Snake::getSnakeLength()
     return this->bodies.size();
 }
 
-void Snake::update(GameField& gf)
+void Snake::update(GameField& gf, Gate& gate)
 {
-    priv_pos = head_pos;
     head_pos = next_pos;
-    
     bodies.insert(bodies.begin(), head_pos);
     int len = bodies.size();
     gf.set_cell(bodies[len - 1].x, bodies[len - 1].y, 0);
     bodies.pop_back();
+
+    for(int i = 0; i < 2; i++) {
+        if(head_pos == gate.gates.first){
+            int nextDir = gate.gate_directions.second[1 - i];
+            head_pos = gate.gates.second.moveTo(nextDir);
+            gate.passing_snake = true;
+        } else if(head_pos == gate.gates.second) {
+            int nextDir = gate.gate_directions.first[1 - i];
+            head_pos = gate.gates.first.moveTo(nextDir);
+            gate.passing_snake = true;
+        }
+    }
+    
+    
     
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
-
 }
 
 void Snake::getItem(GameField& gf)

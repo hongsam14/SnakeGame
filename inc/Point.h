@@ -13,7 +13,7 @@ public:
     Point(int x, int y) :x(x), y(y) { };
 
     Point moveTo(const int dir);
-
+    bool isValid(GameField& gf);
     friend bool operator==(const Point& x, const Point& y);
     Point& operator=(const Point& a);
     friend std::ostream& operator<<(std::ostream& outStream, const Point& point);
