@@ -1,15 +1,10 @@
 #include "Point.h"
-#include "GameField.h"
 
 #define UP 0
 #define DOWN 1
 #define RIGHT 2
 #define LEFT 3
 
-bool Point::isValid()
-{
-    return (*this).x >= 0 && (*this).y >= 0 && (*this).x < 21 && (*this).y < 21;
-}
 Point Point::moveTo(const int dir)
 {
     int x = (*this).x;
@@ -31,6 +26,11 @@ Point Point::moveTo(const int dir)
             break;
     }
     return Point(x,y);
+}
+
+bool Point::isValid(GameField& gf)
+{
+    return (*this).x >= 0 && (*this).y >= 0 && (*this).x < gf.get_row_size() && (*this).y < gf.get_col_size();
 }
 
 Point& Point::operator=(const Point& a)

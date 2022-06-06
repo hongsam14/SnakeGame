@@ -1,6 +1,7 @@
 #ifndef _POINT_
 #define _POINT_
 
+#include "GameField.h"
 #include <iostream>
 
 class Point
@@ -11,9 +12,8 @@ public:
     Point() :x(0), y(0) { };
     Point(int x, int y) :x(x), y(y) { };
 
-    bool isValid();
     Point moveTo(const int dir);
-
+    bool isValid(GameField& gf);
     friend bool operator==(const Point& x, const Point& y);
     Point& operator=(const Point& a);
     
