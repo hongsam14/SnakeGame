@@ -6,7 +6,6 @@ static Point g_dir[8] = {Point(-1, 0), Point(-1, 1), Point(0, 1), Point(1, 1),
 
 Gate_Generator::Gate_Generator(const GameField& field)
 {
-	cout << "start";
 	GameField copy(field);
 
 	for (int i = 0; i < copy.get_col_size(); i++)
@@ -16,8 +15,6 @@ Gate_Generator::Gate_Generator(const GameField& field)
 			search_wall(copy, Point(j, i));
 		}
 	}
-	cout << "copy" << endl;
-	cout << copy << endl;
 }
 
 Gate_Generator::~Gate_Generator()
