@@ -1,11 +1,12 @@
 #include "GateGenerator.h"
 #include <iostream>
 
-static point[8] g_dir = {Point(-1, 0), Point(-1, 1), Point(0, 1), Point(1, 1),
+static Point g_dir[8] = {Point(-1, 0), Point(-1, 1), Point(0, 1), Point(1, 1),
 		Point(1, 0), Point(1, -1), Point(0, -1), Point(-1, -1)};
 
 Gate_Generator::Gate_Generator(const GameField& field)
 {
+	cout << "start";
 	GameField copy(field);
 
 	for (int i = 0; i < copy.get_col_size(); i++)
@@ -37,13 +38,14 @@ int Gate_Generator::search_wall(GameField& field, const Point& sp)
 		case 1:
 			wall_data.emplace_back(sp);
 		case 2:
-			field.set_cell(sp.x, sp.y, 0);
+			field.set_cell(sp.x, sp.y, 8);
+			break ;
 		case 0:
 		default:
 			return 0;
 	}
 	
-	Point() m;
+	Point m;
 	
 	for (int i = 0; i < 8; i++)
 	{
