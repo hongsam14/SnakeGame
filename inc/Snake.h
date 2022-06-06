@@ -13,8 +13,8 @@ public:
     void update(GameField& gf, Gate& gate);
     
     Point getNextPoint(const int dir);
-    Point getHeadPoint();
-    int getSnakeLength();
+    Point getHeadPoint() const;
+    int getSnakeLength() const;
     void getItem(GameField& gf);
 private:
     Point next_pos;

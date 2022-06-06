@@ -27,12 +27,12 @@ Point Snake::getNextPoint(const int dir)
     return next_pos;
 }
 
-Point Snake::getHeadPoint()
+Point Snake::getHeadPoint() const
 {
     return head_pos;
 }
 
-int Snake::getSnakeLength()
+int Snake::getSnakeLength() const
 {
     return this->bodies.size();
 }
