@@ -27,7 +27,7 @@ class GameField
 		GameField(const GameField& cp);
 
 		int get_cell(int x, int y) const;
-		
+
 		void set_cell(int x, int y, int value);
 
 		int get_row_size() const;

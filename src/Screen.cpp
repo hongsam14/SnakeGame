@@ -62,6 +62,7 @@ void Screen::init_color()
 	init_pair(GREEN, COLOR_GREEN, COLOR_GREEN);
 	init_pair(YELLOW, COLOR_YELLOW, COLOR_YELLOW);
 	init_pair(BLUE, COLOR_BLUE, COLOR_BLUE);
+	init_pair(MAGENTA, COLOR_MAGENTA, COLOR_MAGENTA);
 }
 
 void Screen::print_cell(int x, int y, int cell)
@@ -70,6 +71,9 @@ void Screen::print_cell(int x, int y, int cell)
 	
 	switch (cell)
 	{
+		case 7 :
+			cp = COLOR_PAIR(MAGENTA);
+			break;
 		case 4 :
 			cp = COLOR_PAIR(YELLOW);
 			break;
