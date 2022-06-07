@@ -13,6 +13,8 @@ using namespace std;
 #define RIGHT 2
 #define LEFT 3
 
+extern int g_command;
+
 class Gate
 {
 private:

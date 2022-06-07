@@ -17,7 +17,7 @@
 using std::thread;
 
 
-static int g_command = 0;
+int g_command = 3;
 static bool g_game_status = true;
 
 static void game_control()
