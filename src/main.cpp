@@ -18,7 +18,7 @@
 using std::thread;
 
 
-static int g_command = 0;
+int g_command = 3;
 static bool g_game_status = true;
 
 static void game_control()
@@ -76,7 +76,7 @@ static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerato
 			return false;
 		case 7:
 			//gate
-			snake.warp(gtr.getGate());
+			//snake.warp(gtr.getGate());
 		default :
 			;
 	}
@@ -92,12 +92,6 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gt
 	do
 	{
 		m.lock();
-		//generate map
-		if (frame == 10)
-		{
-			gtr.generate_Gate(gf);
-			frame = 0;
-		}
 		//print gameField
 		game_view(gf, sc);
 		//move Snake
@@ -108,7 +102,7 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gt
 			//check collision
 			coll_check = game_check_collision(gf, snake, gtr, g_command);
 			//update data
-			snake.update(gf);
+			snake.update(gf, gtr.getGate());
 		}
 		frame++;
 		//sleep

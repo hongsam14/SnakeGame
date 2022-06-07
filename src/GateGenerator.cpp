@@ -75,7 +75,7 @@ int GateGenerator::search_wall(GameField& field, const Point& sp)
 		case 1:
 			wall_data.emplace_back(sp);
 		case 2:
-			field.set_cell(sp.x, sp.y, 8);
+			field.set_cell(sp.x, sp.y, 0);
 			break ;
 		case 0:
 		default:
