@@ -20,6 +20,10 @@ using std::thread;
 
 int g_command = 3;
 static bool g_game_status = true;
+int get_growthitem_counter = 0;
+int get_poisonitem_counter = 0;
+int pass_gate_counter = 0;
+
 
 static void game_control()
 {
@@ -61,12 +65,13 @@ static void game_view(const GameField& gf, Screen& sc)
 	sc.update();
 }
 
-static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
+static bool game_check_collision(GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
 {
 	bool out;
 	//Point p = snake.getNextPoint(cmd);
 	snake.setDirection(cmd);
 	Point p = snake.getNextPos();
+	Point b;
 	//judge
 	switch(gf.get_cell(p.x, p.y))
 	{
@@ -74,6 +79,22 @@ static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerato
 		case 2:
 		case 4:
 			return false;
+		case 5: //Growth Item
+			get_growthitem_counter++;
+			snake.bodyPushback();
+			break;
+        case 6: //Decrease Item
+			if(snake.getSnakeLength() > 3) {
+				get_poisonitem_counter++;
+				b = snake.getBodiesback();
+				gf.set_cell(b.x, b.y, 0);
+				snake.bodyPopback();
+				break;
+			} else {
+				g_command = EXIT;
+				break;
+			}
+				
 		case 7:
 			//gate
 			//snake.warp(gtr.getGate());

@@ -80,7 +80,7 @@ void GameField::read_map(vector<string>& map)
 	{
 		for (int j = 0; j < row_; ++j)
 		{
-			if (strchr("01234", map[i][j]) && j < map[i].length())
+			if (strchr("01234567", map[i][j]) && j < map[i].length())
 				field[i][j] = map[i][j] - '0';
 			else
 				field[i][j] = -1;
