@@ -12,12 +12,12 @@ class Snake
 {
 public:
     Snake(GameField& gf);
+    
     ~Snake();
+    
     void update(GameField& gf, Gate& gate);
     
     void update(GameField& gf);
-    
-    //Point getNextPoint(const int dir);
     
     Point getHeadPoint() const;
     
@@ -35,6 +35,7 @@ public:
 
     Point getBodiesback();
 
+    void warp(Gate& gate);
     
 private:
     Point next_pos;
