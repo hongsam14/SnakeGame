@@ -6,9 +6,9 @@ Item::Item(GameField& gf)
     {
         for (int j = 0; j < gf.get_row_size(); j++)
         {
-            if(gf.get_cell(i, j) == 0) 
+            if(gf.get_cell(j, i) == 0) 
             {
-                zero_map.push_back(Point(i, j));
+                zero_map.push_back(Point(j, i));
             }
         }
     }
