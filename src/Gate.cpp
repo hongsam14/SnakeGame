@@ -4,6 +4,7 @@ Gate::Gate(GameField &gf, const Point& gate1, const Point& gate2)
 {
 	gates = make_pair(gate1, gate2);
 	gate_directions = make_pair(findExitRoute(gf, gate1), findExitRoute(gf, gate2));
+    
 }
 
 Gate::~Gate()

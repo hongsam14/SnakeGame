@@ -45,26 +45,29 @@ void Snake::update(GameField& gf, Gate& gate)
     int len = bodies.size();
     gf.set_cell(bodies[len - 1].x, bodies[len - 1].y, 0);
     bodies.pop_back();
-
+    int nextDir;
+    
     if(head_pos == gate.gates.first){
         pass_gate_counter++;
-
-        int nextDir = gate.gate_directions.second[0];
+        
+        nextDir = gate.gate_directions.second[0];
         g_command = nextDir;
         bodies[0] = gate.gates.second.moveTo(g_command);
         next_pos = bodies[0];
         head_pos = next_pos;
         gate.passing_snake = true;
+        
     } else if(head_pos == gate.gates.second) {
         pass_gate_counter++;
 
-        int nextDir = gate.gate_directions.first[0];
+        nextDir = gate.gate_directions.first[0];
         g_command = nextDir;
         bodies[0] = gate.gates.first.moveTo(g_command);
         next_pos = bodies[0];
         head_pos = next_pos;
         gate.passing_snake = true;
     }
+    
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
