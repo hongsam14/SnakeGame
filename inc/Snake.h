@@ -5,6 +5,9 @@
 #include "Point.h"
 #include "GameField.h"
 #include "Gate.h"
+
+extern int pass_gate_counter;
+
 class Snake
 {
 public:
@@ -12,14 +15,33 @@ public:
     ~Snake();
     void update(GameField& gf, Gate& gate);
     
-    Point getNextPoint(const int dir);
-    Point getHeadPoint();
-    int getSnakeLength();
-    void getItem(GameField& gf);
+    void update(GameField& gf);
+    
+    //Point getNextPoint(const int dir);
+    
+    Point getHeadPoint() const;
+    
+    int getSnakeLength() const;
+    
+    int getDirection() const;
+
+    void setDirection(int dir);
+
+    void bodyPushback();
+
+    void bodyPopback();
+    
+    Point getNextPos();
+
+    Point getBodiesback();
+
+    
 private:
     Point next_pos;
     Point head_pos;
-    vector<Point> bodies;
+    vector<Point> bodies;    
+
+    int dir;
 };
 
 #endif

@@ -8,37 +8,38 @@ Snake::Snake(GameField& gf)
     bodies.push_back(Point(head_pos.x, head_pos.y));
     bodies.push_back(Point(head_pos.x + 1, head_pos.y));
     bodies.push_back(Point(head_pos.x + 2, head_pos.y));
-
+    
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
-
+    //init dir
+    dir = 0;
 }
 Snake::~Snake()
 {
     bodies.clear();
     vector <Point>().swap(bodies);
 }
-
+/*
 Point Snake::getNextPoint(const int dir)
 {
     next_pos = head_pos.moveTo(dir);
     return next_pos;
 }
-
-Point Snake::getHeadPoint()
+*/
+Point Snake::getHeadPoint() const
 {
     return head_pos;
 }
 
-int Snake::getSnakeLength()
+int Snake::getSnakeLength() const
 {
     return this->bodies.size();
 }
 
 void Snake::update(GameField& gf, Gate& gate)
-{
+{   
     head_pos = next_pos;
     bodies.insert(bodies.begin(), head_pos);
     int len = bodies.size();
@@ -46,42 +47,57 @@ void Snake::update(GameField& gf, Gate& gate)
     bodies.pop_back();
 
     if(head_pos == gate.gates.first){
-        int nextDir = gate.gate_directions.second[1];
+        pass_gate_counter++;
+
+        int nextDir = gate.gate_directions.second[0];
         g_command = nextDir;
         bodies[0] = gate.gates.second.moveTo(g_command);
         next_pos = bodies[0];
         head_pos = next_pos;
         gate.passing_snake = true;
     } else if(head_pos == gate.gates.second) {
-        int nextDir = gate.gate_directions.first[1];
+        pass_gate_counter++;
+
+        int nextDir = gate.gate_directions.first[0];
         g_command = nextDir;
         bodies[0] = gate.gates.first.moveTo(g_command);
         next_pos = bodies[0];
         head_pos = next_pos;
         gate.passing_snake = true;
     }
-    
-    
-    
-    
     gf.set_cell(bodies[0].x, bodies[0].y, 3);
     for(int i = 1; i < bodies.size(); i++){
         gf.set_cell(bodies[i].x, bodies[i].y, 4);
     }
 }
 
-void Snake::getItem(GameField& gf)
+//add
+int Snake::getDirection() const
 {
-    head_pos = next_pos;
-    switch (gf.get_cell(head_pos.x, head_pos.y))
-    {
-        case 5: //Growth Item
-            bodies.push_back(bodies.back());
-            break;
-        case 6: //Decrease Item
-            bodies.pop_back();
-            break;
-        case 0: //Passing map
-            break;
-    }
+	return dir;
+}
+
+void Snake::setDirection(int dir)
+{
+	this->dir = dir;
+}
+
+Point Snake::getNextPos()
+{
+    next_pos = head_pos.moveTo(dir);
+    return next_pos;
+}
+
+void Snake::bodyPushback()
+{
+    bodies.push_back(bodies.back());
+}
+void Snake::bodyPopback()
+{   
+    bodies.pop_back();
+}
+
+Point Snake::getBodiesback()
+{
+    return bodies.back();
 }
