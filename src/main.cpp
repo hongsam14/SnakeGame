@@ -3,6 +3,7 @@
 #include "Snake.h"
 #include "Gate.h"
 #include "GateGenerator.h"
+#include "Item.h"
 
 #include <thread>
 #include <chrono>
@@ -20,6 +21,10 @@ using std::thread;
 
 int g_command = 3;
 static bool g_game_status = true;
+int get_growthitem_counter = 0;
+int get_poisonitem_counter = 0;
+int pass_gate_counter = 0;
+
 
 static void game_control()
 {
@@ -61,11 +66,12 @@ static void game_view(const GameField& gf, Screen& sc)
 	sc.update();
 }
 
-static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
+static bool game_check_collision(GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
 {
 	bool out;
 	snake.setDirection(cmd);
 	Point p = snake.getNextPos();
+	Point b;
 	//judge
 	switch(gf.get_cell(p.x, p.y))
 	{
@@ -73,8 +79,25 @@ static bool game_check_collision(const GameField& gf, Snake& snake, GateGenerato
 		case 2:
 		case 4:
 			return false;
+		case 5: //Growth Item
+			get_growthitem_counter++;
+			snake.bodyPushback();
+			break;
+        case 6: //Decrease Item
+			if(snake.getSnakeLength() > 3) {
+				get_poisonitem_counter++;
+				b = snake.getBodiesback();
+				gf.set_cell(b.x, b.y, 0);
+				snake.bodyPopback();
+				break;
+			} else {
+				g_command = EXIT;
+				break;
+			}
+				
 		case 7:
 			//gate
+			pass_gate_counter++;
 			snake.warp(gtr.getGate());
 		default :
 			;
@@ -97,7 +120,19 @@ static void gate_spawn(GameField& gf, const Snake& snake, GateGenerator& gtr)
 	}
 }
 
-static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gtr, mutex& m)
+static void item_spawn(GameField& gf, Snake& snake, Item& item)
+{
+	int item_num = 0;
+
+	if(item_num < 3)
+	{	
+		item_num++;
+		item.generate_Item(gf);
+	}
+	
+}
+
+static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gtr, Item& item, mutex& m)
 {
 	int frame = 0;
 	bool coll_check = true;
@@ -113,6 +148,9 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gt
 		{
 			//gate_spawn
 			gate_spawn(gf, snake, gtr);
+			//item_spawn
+			if(frame % 20 == 0)
+				item_spawn(gf, snake, item);
 			//check collision
 			coll_check = game_check_collision(gf, snake, gtr, g_command);
 			//update data
@@ -149,12 +187,14 @@ int main(int argc, char** argv)
 	Snake snake(gf);
 	//init Gate
 	GateGenerator gate_gtr(gf);
+	//init Item
+	Item item(gf);
 	//thread control
 	mutex m;
 	thread control(game_control);
 	control.detach();
 	//game loop
 	//gate_gtr.generate_Gate(gf);
-	game_Loop(gf, sc, snake, gate_gtr, m);
+	game_Loop(gf, sc, snake, gate_gtr, item, m);
 	return 0;
 }

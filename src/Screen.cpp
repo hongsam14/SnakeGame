@@ -74,6 +74,12 @@ void Screen::print_cell(int x, int y, int cell)
 		case 7 :
 			cp = COLOR_PAIR(MAGENTA);
 			break;
+		case 6 :
+			cp = COLOR_PAIR(RED);
+			break;
+		case 5 :
+			cp = COLOR_PAIR(BLUE);
+			break;
 		case 4 :
 			cp = COLOR_PAIR(YELLOW);
 			break;
