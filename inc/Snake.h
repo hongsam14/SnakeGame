@@ -9,12 +9,12 @@ class Snake
 {
 public:
     Snake(GameField& gf);
+    
     ~Snake();
+    
     void update(GameField& gf, Gate& gate);
     
     void update(GameField& gf);
-    
-    //Point getNextPoint(const int dir);
     
     Point getHeadPoint() const;
     
