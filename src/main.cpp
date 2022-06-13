@@ -149,12 +149,11 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gt
 			//gate_spawn
 			gate_spawn(gf, snake, gtr);
 			//item_spawn
-			if(frame % 20 == 0)
+			if (frame % 20 == 0)
 				item_spawn(gf, snake, item);
 			//check collision
 			coll_check = game_check_collision(gf, snake, gtr, g_command);
 			//update data
-			//snake.update(gf, gtr.getGate());
 			snake.update(gf);
 		}
 		frame++;
@@ -194,7 +193,6 @@ int main(int argc, char** argv)
 	thread control(game_control);
 	control.detach();
 	//game loop
-	//gate_gtr.generate_Gate(gf);
 	game_Loop(gf, sc, snake, gate_gtr, item, m);
 	return 0;
 }
