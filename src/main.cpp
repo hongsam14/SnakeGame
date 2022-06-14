@@ -54,16 +54,15 @@ static void game_control()
 	}
 }
 
-static void game_view(const GameField& gf, Screen& sc)
+static void game_view(const GameField& gf, GameBoard& gb)
 {
-	sc.clear_Screen();
-	sc.draw_Basic();
+	gb.clear();
 	for (int y = 0; y < gf.get_col_size(); y++)
 	{
 		for (int x = 0; x < gf.get_row_size(); x++)
-			sc.print_cell(x, y, gf.get_cell(x, y));
+			gb.print(x, y, gf.get_cell(x, y));
 	}
-	sc.update();
+	gb.update();
 }
 
 static bool game_check_collision(GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
@@ -132,16 +131,34 @@ static void item_spawn(GameField& gf, Snake& snake, Item& item)
 	
 }
 
-static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gtr, Item& item, mutex& m)
+static void game_Loop(GameField& gf, mutex& m)
 {
 	int frame = 0;
 	bool coll_check = true;
+	
+	//game board
+	GameBoard gb(0, 1, 1, gf.get_row_size() * 2 + 2, gf.get_col_size() + 2); 
+	//score board
+	ScoreBoard sb('+', gf.get_row_size() * 2 + 4, 3, 13, 6);
+	sb.draw_border();
+	sb.print(0, 0, 0, 0);
+	sb.update();
+	//mission board
+	MissionBoard mb('+', gf.get_row_size() * 2 + 4, 3 + 6 + 1, 13, 6);
+	mb.draw_border();
+	mb.print(0, 0, 0, 0);
+	mb.update();
+	
+	Snake snake(gf);
+	GateGenerator gtr(gf);
+	Item item(gf);
 	//game view
 	do
 	{
 		m.lock();
 		//print gameField
-		game_view(gf, sc);
+		game_view(gf, gb);
+		
 		if (g_command == EXIT || coll_check == false)
 			g_game_status = false;
 		if (g_game_status)
@@ -149,12 +166,11 @@ static void game_Loop(GameField& gf, Screen& sc, Snake& snake, GateGenerator& gt
 			//gate_spawn
 			gate_spawn(gf, snake, gtr);
 			//item_spawn
-			if(frame % 20 == 0)
+			if (frame % 20 == 0)
 				item_spawn(gf, snake, item);
 			//check collision
 			coll_check = game_check_collision(gf, snake, gtr, g_command);
 			//update data
-			//snake.update(gf, gtr.getGate());
 			snake.update(gf);
 		}
 		frame++;
@@ -182,19 +198,14 @@ int main(int argc, char** argv)
 	cout << gf << endl;
 	
 	//init Screen
-	Screen sc("SnakeGame", '#', gf.get_row_size() * 3, gf.get_col_size() + 2);
-	//init Snake
-	Snake snake(gf);
-	//init Gate
-	GateGenerator gate_gtr(gf);
-	//init Item
-	Item item(gf);
+	Screen sc("SnakeGame", '#', gf.get_row_size() * 3, gf.get_col_size() + 4);
+	sc.draw_Basic();
+	sc.update();
 	//thread control
 	mutex m;
 	thread control(game_control);
 	control.detach();
 	//game loop
-	//gate_gtr.generate_Gate(gf);
-	game_Loop(gf, sc, snake, gate_gtr, item, m);
+	game_Loop(gf, m);
 	return 0;
 }
