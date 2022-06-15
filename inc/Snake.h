@@ -15,8 +15,6 @@ public:
     
     ~Snake();
     
-    void update(GameField& gf, Gate& gate);
-    
     void update(GameField& gf);
     
     Point getHeadPoint() const;
