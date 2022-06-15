@@ -21,6 +21,7 @@ using std::thread;
 
 int g_command = 3;
 static bool g_game_status = true;
+
 int get_growthitem_counter = 0;
 int get_poisonitem_counter = 0;
 int pass_gate_counter = 0;
@@ -56,13 +57,23 @@ static void game_control()
 
 static void game_view(const GameField& gf, GameBoard& gb)
 {
-	gb.clear();
+	//gb.clear();
 	for (int y = 0; y < gf.get_col_size(); y++)
 	{
 		for (int x = 0; x < gf.get_row_size(); x++)
 			gb.print(x, y, gf.get_cell(x, y));
 	}
 	gb.update();
+}
+
+static void score_view(ScoreBoard& sb, MissionBoard& mb, Snake& snake)
+{
+	sb.print(snake.getSnakeLength(),
+			get_growthitem_counter, get_poisonitem_counter, pass_gate_counter);
+	sb.update();
+	mb.print(snake.getSnakeLength(),
+			get_growthitem_counter, get_poisonitem_counter, pass_gate_counter);
+	mb.update();
 }
 
 static bool game_check_collision(GameField& gf, Snake& snake, GateGenerator& gtr, int cmd)
@@ -141,12 +152,13 @@ static void game_Loop(GameField& gf, mutex& m)
 	//score board
 	ScoreBoard sb('+', gf.get_row_size() * 2 + 4, 3, 13, 6);
 	sb.draw_border();
-	sb.print(0, 0, 0, 0);
+	sb.printIdx();
 	sb.update();
 	//mission board
 	MissionBoard mb('+', gf.get_row_size() * 2 + 4, 3 + 6 + 1, 13, 6);
+	mb.setMission(10, 5, 2, 1);
 	mb.draw_border();
-	mb.print(0, 0, 0, 0);
+	mb.printIdx();
 	mb.update();
 	
 	Snake snake(gf);
@@ -170,6 +182,7 @@ static void game_Loop(GameField& gf, mutex& m)
 				item_spawn(gf, snake, item);
 			//check collision
 			coll_check = game_check_collision(gf, snake, gtr, g_command);
+			score_view(sb, mb, snake);
 			//update data
 			snake.update(gf);
 		}
