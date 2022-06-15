@@ -179,11 +179,11 @@ void MissionBoard::print(int d1, int d2, int d3, int d4)
 	i = print_num(4, 1, b);
 	printBool(4 + i + 1, 1, b <= d1);
 	i = print_num(4, 2, p);
-	printBool(4 + i + 1, 2, b <= d2);
+	printBool(4 + i + 1, 2, p <= d2);
 	i = print_num(4, 3, m);
-	printBool(4 + i + 1, 3, b <= d3);
+	printBool(4 + i + 1, 3, m <= d3);
 	i = print_num(4, 4, g);
-	printBool(4 + i + 1, 4, b <= d4);
+	printBool(4 + i + 1, 4, g <= d4);
 }
 
 Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c), w(W), h(H)
