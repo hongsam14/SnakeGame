@@ -8,6 +8,7 @@
 #include <cassert>
 #include <iostream>
 #include <cwchar>
+#include <cmath>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ class Window
 		const int w, h;
 		string title;
 		WINDOW *win;
+
+		int print_num(int x, int y, int num);
 	public :
 		Window(wchar_t c, int x, int y, int W = 10, int H = 10);
 		virtual ~Window();
@@ -43,13 +46,11 @@ class GameBoard final :public Window
 class ScoreBoard final : public Window
 {
 	private :
-		int b;
-		int g_item;
-		int p_item;
-		int g;
+		int max_len;
 	public :
 		ScoreBoard(wchar_t c, int x, int y, int W = 10, int H = 10);
 		~ScoreBoard() override;
+		void printIdx();
 		void print(int d1, int d2, int d3, int d4) override;
 };
 
@@ -60,9 +61,12 @@ class MissionBoard final : public Window
 		int p;
 		int m;
 		int g;
+		void printBool(int x, int y, int b);
 	public :
 		MissionBoard(wchar_t c, int x, int y, int W = 10, int H = 10);
 		~MissionBoard() override;
+		void setMission(int b, int p, int m, int g);
+		void printIdx();
 		void print(int d1, int d2, int d3, int d4) override;
 };
 

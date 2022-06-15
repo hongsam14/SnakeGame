@@ -28,6 +28,35 @@ void Window::draw_border()
 	mvwprintw(win, 0, 0, title.c_str());
 }
 
+int Window::print_num(int x, int y, int num)
+{
+	int d = 0;
+	int o;
+
+	if (!num)
+		d = 1;
+	else
+	{
+		for (int i = num; i; i /= 10)
+			d++;
+	}
+	o = d;
+	
+	char * s;
+
+	s = new char[d + 1];
+	s[d--] = 0;
+	for (int i = 0, t = pow(10, d); d >= 0; i++, t /= 10, d--)
+	{
+		s[i] = '0' + (num / t);
+		num %= t; 
+	}
+	
+	mvwprintw(win, y, x, s);
+	delete[] s;
+	return o;
+}
+
 GameBoard::GameBoard(wchar_t c, int x, int y, int W, int H) : Window(c, x, y, W, H)
 {
 	title = "GameBoard";
@@ -71,29 +100,39 @@ void GameBoard::print(int x, int y, int cell, int)
 	}
 	
 	wattron(win, cp);
-	mvwprintw(win, y + 1, x + 1, "\u2B1B");
+	mvwprintw(win, y + 1, x * 2 + 1, "\u2B1B");
 	wattroff(win, cp);
 }
 
 ScoreBoard::ScoreBoard(wchar_t c, int x, int y, int W, int H) : Window(c, x, y, W, H)
 {
 	title = "ScoreBoard";
-	b = 3;
-	g_item = 0;
-	p_item = 0;
-	g = 0;
+	max_len = 3;
 }
 
 ScoreBoard::~ScoreBoard()
 {
 }
 
-void ScoreBoard::print(int d1, int d2, int d3, int d4)
+void ScoreBoard::printIdx()
 {
 	mvwprintw(win, 1, 2, "B:");
 	mvwprintw(win, 2, 2, "+:");
 	mvwprintw(win, 3, 2, "-:");
 	mvwprintw(win, 4, 2, "G:");
+}
+
+void ScoreBoard::print(int d1, int d2, int d3, int d4)
+{
+	if (d1 > max_len)
+		max_len = d1;
+	int i = print_num(4, 1, d1);
+	mvwprintw(win, 1, 4 + i + 1, "/");
+	print_num(4 + i + 3, 1, max_len);
+	
+	print_num(4, 2, d2);
+	print_num(4, 3, d3);
+	print_num(4, 4, d4);
 }
 
 MissionBoard::MissionBoard(wchar_t c, int x, int y, int W, int H) : Window(c, x, y, W, H)
@@ -109,12 +148,42 @@ MissionBoard::~MissionBoard()
 {
 }
 
-void MissionBoard::print(int d1, int d2, int d3, int d4)
+void MissionBoard::setMission(int b, int p, int m, int g)
+{
+	this->b = b;
+	this->p = p;
+	this->m = m;
+	this->g = g;
+}
+
+void MissionBoard::printBool(int x, int y, int b)
+{
+	mvwprintw(win, y, x, "(");
+	if (b)
+		mvwprintw(win, y, x + 1, "V");
+	mvwprintw(win, y, x + 2, ")");
+}
+
+void MissionBoard::printIdx()
 {
 	mvwprintw(win, 1, 2, "B:");
 	mvwprintw(win, 2, 2, "+:");
 	mvwprintw(win, 3, 2, "-:");
 	mvwprintw(win, 4, 2, "G:");
+}
+
+void MissionBoard::print(int d1, int d2, int d3, int d4)
+{
+	int i;
+	
+	i = print_num(4, 1, b);
+	printBool(4 + i + 1, 1, b <= d1);
+	i = print_num(4, 2, p);
+	printBool(4 + i + 1, 2, b <= d2);
+	i = print_num(4, 3, m);
+	printBool(4 + i + 1, 3, b <= d3);
+	i = print_num(4, 4, g);
+	printBool(4 + i + 1, 4, b <= d4);
 }
 
 Screen::Screen(const string& Title, wchar_t c, int W, int H): title(Title), bc(c), w(W), h(H)
