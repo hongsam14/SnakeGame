@@ -33,3 +33,23 @@
 -	+ : Growth Item을 먹은 횟수 
 -	– : Poison Item을 먹은 횟수
 -	G : Gate를 통과한 횟수
+
+## 설치 방법
+프로젝트는 Linux, MacOS 환경에서 실행 가능하다.
+### Linux, MacOS
+```
+./install.sh
+```
+Make를 하기 이전에 'install.sh' bash파일을 실행시켜 ncurses를 설치한다.
+```
+make
+```
+Makefile을 실행시켜 실행파일을 만든다.
+```
+./SnakeGame
+```
+아무 인자를 넘겨주지 않는다면 가장 기본 맵인 21 * 21 크기의 맵에서 게임을 하게 된다.
+```
+./SnakeGame sample_2.map
+```
+main 인수로 .map파일을 넘겨주게 된다면 해당 맵에서 게임을 플레이할 수 있다.
