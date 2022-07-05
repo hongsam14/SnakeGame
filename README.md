@@ -69,12 +69,10 @@ main 인수로 .map파일을 넘겨주게 된다면 해당 맵에서 게임을 �
 -	창의 원하는 상대좌표부터 string을 출력한다. : mvwprintw
 
 ## 부록
-github team : https://github.com/Kookmin-Univ-C-programming
-repo:  https://github.com/Kookmin-Univ-C-programming/SnakeGame
-pdcurses repo: https://github.com/Kookmin-Univ-C-programming/SnakeGame_PDCURSES
-project milestones: https://github.com/Kookmin-Univ-C-programming/SnakeGame/milestones
-project kanban board:
-https://github.com/Kookmin-Univ-C-programming/SnakeGame/projects/1
-project Discussions:
-https://github.com/Kookmin-Univ-C-programming/SnakeGame/discussions
+- github team : https://github.com/Kookmin-Univ-C-programming
+- repo:  https://github.com/Kookmin-Univ-C-programming/SnakeGame
+- pdcurses repo: https://github.com/Kookmin-Univ-C-programming/SnakeGame_PDCURSES
+- project milestones: https://github.com/Kookmin-Univ-C-programming/SnakeGame/milestones
+- project kanban board: https://github.com/Kookmin-Univ-C-programming/SnakeGame/projects/1
+- project Discussions: https://github.com/Kookmin-Univ-C-programming/SnakeGame/discussions
 
