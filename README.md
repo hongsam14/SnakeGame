@@ -54,6 +54,20 @@ Makefile을 실행시켜 실행파일을 만든다.
 ```
 main 인수로 .map파일을 넘겨주게 된다면 해당 맵에서 게임을 플레이할 수 있다.
 
+## 활용 library
+### STL Container
+- vector
+- pair
+
+### ncurses
+- 화면 생성, 크기조절 : initscr, endwin, resize_term
+- 색상을 초기화 : start_color, init_color, COLOR_PAIR
+-	테두리를 출력 : border
+-	커서 숨김. 런타임동안 표준 출력 스트림으로 출력되는 정보를 숨긴다. 입력받을 때 확장된 아스키 코드의 값을 받도록 한다. :  keypad, curs_set, noecho
+-	창을 생성한다. : newwin, delwin
+-	창 테두리를 출력한다 : wborder
+-	창의 원하는 상대좌표부터 string을 출력한다. : mvwprintw
+
 ## 부록
 github team : https://github.com/Kookmin-Univ-C-programming
 repo:  https://github.com/Kookmin-Univ-C-programming/SnakeGame
